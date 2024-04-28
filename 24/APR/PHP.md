@@ -24,3 +24,43 @@
 
 バブルソート: 隣にある要素と比較して、順序が逆だった場合、要素を交換していく。
 sort関数を使わずに並び替えを実現できる。
+
+```
+<?php
+$array_data = [["らんてくん", 98], ["ロボらんてくん", 23], ["ひさじゅ", 100]];
+
+function chapter02_01($array_data) {
+    usort($array_data, function($a, $b) { 
+        return $b[1] - $a[1];
+    });
+
+    $result = [];
+    foreach($array_data as $key => $value) {
+        $rank = $key + 1;
+        $result[] = "{$rank}位: {$value[0]} {$value[1]}点";
+    }
+    return $result;
+}
+
+$result_array = chapter02_01($array_data);
+foreach ($result_array as $val) {
+  print $val . "\n";
+}
+```
+**usort**
+- 自分の指定した順番で配列の中身を並べ替える
+- 順番の指定はコールバック関数で行う
+- 呼び出し方 -> `usort($配列, $コールバック関数)`
+
+このコールバック関数では、配列内の二つの要素 a と b を引数として受け取る。
+- `return $b[1] - $a[1];` の計算結果が 正の値 であれば、b を a より前に配置します
+（つまり、b のスコアが a のスコアより高い場合、b が先にくるようにします）。
+- 戻り値が 0 の場合、a と b は等しいとみなされ、その順序は変わりません。
+- 負の値 の場合、a を b より前に配置します。
+
+? コールバック関数
+
+配列が [名前, スコア] のペアで構成されていてスコアで並べ替えしたいため `usort()`
+
+- result用の箱を用意して、`$array_data as $key => $value`つまり配列の番号を取得して順位用に使ってる？
+その後、resultに入れ直して出力。
