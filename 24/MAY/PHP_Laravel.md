@@ -21,4 +21,13 @@ print_r($mapped); // 出力: [2, 4, 6, 8]
   - どういう時？ リソースの節約、依存関係にあるバリデーション
 
 - `oldメソッド`: 直前に一時保持保存した入力データをsessionから取り出す
-- ログイン機能
+- `Hash::make()`: パスワードなどハッシュ化して保存するとき 
+```
+use Illuminate\Support\Facades\Hash;
+
+public function store(UserRequest $request)
+{ 
+    ...
+    
+    $user->password = Hash::make($request->password);
+```
