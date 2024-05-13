@@ -31,3 +31,5 @@ public function store(UserRequest $request)
     
     $user->password = Hash::make($request->password);
 ```
+
+- `php artisan make:controller コントローラ名`: コントローラ作成コマンド
