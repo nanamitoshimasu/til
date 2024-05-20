@@ -58,18 +58,18 @@ user_id(ユーザーID): foreignId
 ```
 docker-compose exec app php artisan make:controller BoardsController
 ```
-  - indexメソッドが作成
-  - 掲示板作成ページ表示用のcreateメソッド
-  - ログインユーザーのみの作成
-  - 掲示板作成用のstoreメソッド
-  - バリデーションの設定
+  - [x] indexメソッドが作成
+  - [x] 掲示板作成ページ表示用のcreateメソッド
+  - [x] ログインユーザーのみの作成
+  - [x] 掲示板作成用のstoreメソッド
+  - [x] バリデーションの設定
     → タイトル(title)は入力必須かつ255文字を最大文字数とする
     → 本文(description)は入力必須かつ65535文字を最大文字数とする
-  - 掲示板作成後に掲示板一覧画面に遷移
+  - [x] 掲示板作成後に掲示板一覧画面に遷移
 
-- 各種ビューファイルをダウンロード
+- [x] 各種ビューファイルをダウンロード
 
-- Seedファイルの作成
+- [x] Seedファイルの作成
 ```
 docker-compose exec app php artisan make:seeder BoardsTableSeeder
 docker-compose exec app php artisan make:seeder UsersTableSeeder
