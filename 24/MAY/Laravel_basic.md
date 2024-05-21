@@ -75,3 +75,37 @@ docker-compose exec app php artisan make:seeder BoardsTableSeeder
 docker-compose exec app php artisan make:seeder UsersTableSeeder
 ```
 LaravelのSeed？
+- factroyを使って大量データを登録
+  参考: https://qiita.com/hirotototototo/items/689947637042cf5c3284
+  Laravelのバージョンでも書き方が異なる場合がある？？ 
+
+- ルーティング
+```
+Route::resource('boards', BoardsController::class)
+    ->only(['index', 'create', 'store']) <- 一括ルーティングして必要な文をonlyで指定
+    ->middleware(['auth', 'verified']) <- ログインしている場合のみアクセスする場合こちらに記載
+    ->names([
+        'index' => 'boards.index',
+        'create' => 'boards.create',
+        'store' => 'boards.store'
+    ]);
+```
+
+- ユーザーと関連付けたとき
+```
+    public function store(Request $request) {
+        $validated = $request->validate([
+            'title' => 'required|max:255',
+            'description' => 'required|max:65535'
+        ]);
+        $board = new Board();
+        $board->user_id = $request->user()->id; <- user_idを追加
+        $board->title = $request->title;
+        $board->description = $request->description;
+        $board->save();
+
+        return redirect (route('boards.index', $board))->with('success', '掲示板を新規登録しました。');
+```
+- ボードにユーザーの名前を表示する時: `{{$board->user->name}}`
+
+
