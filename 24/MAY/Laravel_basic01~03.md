@@ -109,3 +109,19 @@ Route::resource('boards', BoardsController::class)
 - ボードにユーザーの名前を表示する時: `{{$board->user->name}}`
 
 
+- フラッシュメッセージ
+  - controllerにメッセージを記載
+    withメソッド: セッションにデータを一時的に保存するための簡単な方法
+    `->with('success', '掲示板を作成しました。');`
+    第一引数にキー名`success`, 第二引数に保存する値`掲示板を作成しました。`
+    
+    ビューで保存したsessionからメッセージを呼び出す↓
+    ```
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
+    ```
+
+- デフォルトエラーメッセージ: lang/{locale}/validation.php にメッセージが含まれている
