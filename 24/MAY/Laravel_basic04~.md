@@ -47,7 +47,7 @@ Laravelでは、デフォルトで storage/app/public ディレクトリにフ�
 
 - [x] ルーティングを追加
   - ボード内にネスト
-    `Route::prefix('boards/{board}')->group(function () {'
+    `Route::prefix('boards/{board}')->group(function ()`
 
-- [] コメントコントローラーを作成
+- [x] コメントコントローラーを作成
   - index, new, create
