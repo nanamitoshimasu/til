@@ -37,3 +37,31 @@ $data = [
     // 他のフィールドも含まれる場合があります
 ];
 ```
+
+### 08_bookmark
+
+- 掲示板詳細画面と一覧画面にブックマーク用のリンク追加
+  - 配布ファイルを追加
+  - `@include`: ビューのパーシャルは`@include`を使って参照
+    パーシャル用ディレクトリを作成し、`'boards.partials.bookmark_button'`と記載すると参照できる
+
+- bookmarksテーブルを追加するmigrationファイル作成
+  - `php artisan make:model Bookmark --migration`
+  - `$table->foreignId('user_id')->constrained()->onDelete('cascade');`
+
+- Bookmarkモデル作成
+  - Boardモデル(1)とBookmark(多)モデルにアソシエーション
+  - Userモデル(1)とBookmark(多)モデルにアソシエーション
+
+- ルーティングの追加
+  `Route::resource('boards.bookmarks', BookmarksController::class)->only(['store', 'destroy']);`
+
+- ブックマークの作成・削除用にBookmarksController作成
+  `php artisan make:controller Bookmark`
+  - store
+  - destroy
+    return redirect()->back()->with('success', '掲示板をお気に入りに登録しました。');
+
+- ブックマーク作成用のリンクをクリックすると、Bookmarkが作成され、リンクが削除用に変わること
+- ブックマーク削除用のリンクをクリックすると、Bookmarkが削除され、リンクが作成用に変わること
+
