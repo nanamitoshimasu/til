@@ -48,6 +48,8 @@ $data = [
 - bookmarksテーブルを追加するmigrationファイル作成
   - `php artisan make:model Bookmark --migration`
   - `$table->foreignId('user_id')->constrained()->onDelete('cascade');`
+  - `$table->unique(['user_id', 'board_id'])` 組み合わせが一意であることを保証するための設定。
+    同じ投稿に同じユーザーが複数回お気に入りに追加するのを防ぐ。データベースの整合性と一貫性が維持される。
 
 - Bookmarkモデル作成
   - Boardモデル(1)とBookmark(多)モデルにアソシエーション
@@ -64,4 +66,63 @@ $data = [
 
 - ブックマーク作成用のリンクをクリックすると、Bookmarkが作成され、リンクが削除用に変わること
 - ブックマーク削除用のリンクをクリックすると、Bookmarkが削除され、リンクが作成用に変わること
+
+#### Laravel N+1解消方法　Eagerロード
+- withメソッド
+  - withメソッドの引数には定義したリレーションのメソッド名を文字列で指定。
+    withメソッドを使用する場合allメソッドが使用できないので、getメソッドでモデルインスタンスのコレクションを取得
+```
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+
+class UserController extends Controller
+{
+    public function index()
+    {
+        $users = User::with('posts')->get();
+
+        foreach ($users as $user) {
+            foreach ($user->posts as $post) {
+                dump($post->title);
+            }
+        }
+    }
+}
+```
+  これでUsertテーブルのデータ取得とリレーション先のPostテーブル全データ取得の2回
+  Eagerロードを行うと事前にリレーション先のデータを取得することでN＋1を解決している
+
+- loadメソッド
+  - loadメソッドの引数は定義したリレーションのメソッド名を文字列で指定するのはwithメソッドと同じ
+
+  ```
+  <?php
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+
+class UserController extends Controller
+{
+    public function index()
+    {
+        $users = User::all()->load('posts');
+
+        foreach ($users as $user) {
+            foreach ($user->posts as $post) {
+                dump($post->title);
+            }
+        }
+    }
+}
+  ```
+
+  - ふたつのメソッドの違いはEagerロードを行うタイミング
+    with: モデルインスタンスのコレクションを取得する前に使用、明確に必要なリレーションシップが分かっているとき
+    load: モデルインスタンスのコレクションを取得した後に使用、条件に応じてリレーションシップをロードするとき
+
+
 
