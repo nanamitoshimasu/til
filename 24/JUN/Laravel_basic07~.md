@@ -132,6 +132,9 @@ class UserController extends Controller
   `npm install axios`
 
 - viewファイルの置き換えとjsファイル追加
+  bookmark.jsを読み込ませるために、resources/js/app.jsに`import './bookmark';`を追加
+  → ビルドされたファイルに含まれるようになる
+  axiosを使ったjsファイルもthen(response =>...)(成功)、catch(error =>...)(失敗)で分岐 promiseベース
 
 - controllerの編集
   - 参考: `return response()->json(['html' => ここにブックマークのパーシャルを入れる]);`
@@ -141,5 +144,6 @@ class UserController extends Controller
 - JSファイルでクリックイベントを受け取り、非同期リクエストを送信
 - コントローラでリクエストを受け取り、ブックマークstoreもしくはdestoryしてJSONレスポンスを返す
 - JSファイルでレスポンスを受け取り、ブックマークボタンビューへ
+
 
 
