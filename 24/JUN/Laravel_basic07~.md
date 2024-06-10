@@ -126,3 +126,20 @@ class UserController extends Controller
 
 
 
+### 09_bookmark_ajax
+
+- axios導入
+  `npm install axios`
+
+- viewファイルの置き換えとjsファイル追加
+
+- controllerの編集
+  - 参考: `return response()->json(['html' => ここにブックマークのパーシャルを入れる]);`
+
+非同期通信の流れ
+- ブックマークをクリック
+- JSファイルでクリックイベントを受け取り、非同期リクエストを送信
+- コントローラでリクエストを受け取り、ブックマークstoreもしくはdestoryしてJSONレスポンスを返す
+- JSファイルでレスポンスを受け取り、ブックマークボタンビューへ
+
+
