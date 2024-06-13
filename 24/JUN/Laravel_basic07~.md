@@ -153,3 +153,31 @@ dusk = Laravel Dusk ブラウザテスト用のツールで使用される属性
 
 compact(): 複数の変数を一度に配列に変換する関数。変数をまとめて配列として扱いたいときに便利。
 
+
+### 10_comment_ajax
+
+- commentのパーシャル化
+  - パーシャルをforeachさせるようにboard/showに記述変更
+  - current userの場合は削除ボタンを用意する(borad一覧を参考に作る？)
+  ```
+<div class="flex text-2xl">
+@if ($board->user == Auth::user())
+  <a href="{{ route('boards.edit', $board->id)}}"><i class="ri-edit-box-line mr-4"></i></a>
+  <form action="{{ route('boards.destroy', $board->id) }}" method="POST">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="btn btn-danger">
+      <i class="ri-delete-bin-line"></i>
+    </button>
+  </form>
+@else
+  @include('boards.partials.bookmark_button')
+@endif
+  ```
+- commentのJSファイルを作る
+  ブックマークを参考に作成
+- controllerの編集
+  - 参考: `return response()->json(['html' => ここにブックマークのパーシャルを入れる]);`
+  - boardを取得するように記述する
+
+ルート確認方法: `php artisan route:list`
