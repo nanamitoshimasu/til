@@ -179,5 +179,6 @@ compact(): 複数の変数を一度に配列に変換する関数。変数をま
 - controllerの編集
   - 参考: `return response()->json(['html' => ここにブックマークのパーシャルを入れる]);`
   - boardを取得するように記述する
+  - DELETE          boards/{board}/comments/{comment} boardとcommentの両方のidが必要
 
 ルート確認方法: `php artisan route:list`
