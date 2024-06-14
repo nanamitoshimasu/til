@@ -182,3 +182,8 @@ compact(): 複数の変数を一度に配列に変換する関数。変数をま
   - DELETE          boards/{board}/comments/{comment} boardとcommentの両方のidが必要
 
 ルート確認方法: `php artisan route:list`
+
+- `document.querySelector`のセレクタ
+  セレクタの取得
+  `.`: クラスセレクタ(.className) クラスで要素を選択 複数要素に同じクラスを適用可能
+  `#`: IDセレクタ(#idName) ID名で要素を選択 IDは一意ページ内に1つの要素にしか適用できない
