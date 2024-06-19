@@ -152,7 +152,7 @@ class UserController extends Controller
 dusk = Laravel Dusk ブラウザテスト用のツールで使用される属性
 
 compact(): 複数の変数を一度に配列に変換する関数。変数をまとめて配列として扱いたいときに便利。
-
+関連するモデルからインスタンスの取得し、それをまとめてviewに渡すときに使用
 
 ### 10_comment_ajax
 
@@ -187,3 +187,27 @@ compact(): 複数の変数を一度に配列に変換する関数。変数をま
   セレクタの取得
   `.`: クラスセレクタ(.className) クラスで要素を選択 複数要素に同じクラスを適用可能
   `#`: IDセレクタ(#idName) ID名で要素を選択 IDは一意ページ内に1つの要素にしか適用できない
+
+-  `()`: メソッドの呼び出し Auth::user()だと Authクラスのuserメソッドを呼び出している
+- `$board = Auth::user()->boards()->find($id);`　これをRailsに直すと
+  `board = current_user.boards.find(params[:id])`
+- $request? LaravelのIlluminate\Http\Requestクラスのインスタンス 現在のHTTPリクエストに関する情報を提供
+  railsの場合はparamsハッシュを通じてアクセスする 例えばフォームデータやURLパラメータはparams[:key]のように取得
+
+- 追加実装1: どの投稿にもコメントできるようにする
+  - 変更点
+  ```
+  /* commentsController */
+  public function store(Request $request, $id) {
+   ~~$board = Auth::user()->boards()->find($id);~~
+   $board = Board::findOrFail($id)
+
+  ```
+  回答の記述だと、いわゆるcurrent_userの投稿を取得している
+
+- 追加実装2: 投稿したコメントを削除できるようにする
+- 検証: 元々使っていたコードを使って動かせるか
+
+### 11_pagination
+- コントロール側にページネーションの記述(index)
+- ビューにページネーションの記述(index下部)
