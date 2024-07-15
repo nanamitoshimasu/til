@@ -32,3 +32,34 @@
    3) UPDATE 成績表 SET 総合成績 = 'D' WHERE  法学 < 50 AND 経済学 < 50 AND 哲学 < 50 AND 情報理論 < 50 AND 外国語 < 50 AND 総合成績 IS NULL;
    4) UPDATE 成績表 SET 総合成績 = 'C' WHERE 総合成績 IS NULL;
 6. DELETE FROM 成績表 WHERE 法学 = 0 OR 経済学 = 0 OR 哲学 = 0 OR 情報理論 = 0 OR 外国語 = 0;
+
+- 4章 練習問題
+1. SELECT * FROM 注文履歴 ORDER BY 注文番号, 注文枝番;
+2. SELECT DISTINCT 商品名 FROM 注文履歴 WHERE 日付 >= '2018-01-01' AND 日付 <= '2018-01-31' ORDER BY 商品名;
+3. SELECT 注文番号, 注文枝番, 注文金額 FROM 注文履歴 WHERE 分類 = '1' ORDER BY 注文金額 OFFSET 1 ROWS FETCH NEXT 3 ROWS ONLY
+4. SELECT 日付, 商品名, 単価, 数量, 注文金額 FROM 注文履歴 WHERE 分類 = '3' AND 数量 >= 2 ORDER BY 日付、数量 DESC;
+   (3: その他の商品について、2つ以上同時に購入された商品を取得し、日付, 商品名, 単価, 数量, 注文金額 同日に売り上げたものは数量の多い順)
+5. SELECT DISTINCT 分類, 商品名, NULL, 単価 FROM 注文履歴 WHERE 分類 = '2' UNION
+   SELECT DISTINCT 分類, 商品名, NULL, 単価 FROM 注文履歴 WHERE 分類 = '3' ORDER BY 1, 2
+
+- 5章 練習問題
+1. UPDATE 試験結果 SET 午後1 = (80*4) - (86+68+91) WHERE 受験者ID = 'SW1064'
+   UPDATE 試験結果 SET 論述 = (68*4) - (65+53+70) WHERE 受験者ID = 'SW1350'
+   UPDATE 試験結果 SET 午前 = (56*4) = (59+56+36) WHERE 受験者ID = 'SW1877'
+2. SELECT 受験者ID AS '合格者ID' FROM 試験結果 WHERE 午前 >= 60 AND (午後1 + 午後2) >= 120 AND 論述 >= (午前+午後1+午後2+論述)*0.3
+
+1. UPDATE 回答者 SET 国名 CASE SUBSTRING (TRIM(メールアドレス), LENGTH (TRIM(メールアドレス))-1 ,2)
+   WHEN 'jp' THEN '日本'
+   WHEN 'uk' THEN 'イギリス'
+   WHEN 'cn' THEN '中国'
+   WHEN 'fr' THEN 'フランス'
+   WHEN 'vn' THEN 'ベトナム'　END
+2. SELECT TRIM(メールアドレス) AS メールアドレス,
+   CASE WHEN 年齢 >= 20 AND 年齢 < 30 THEN '20代'
+   　　　WHEN 年齢 >= 30 AND 年齢 < 40 THEN '30代'
+        WHEN 年齢 >= 40 AND 年齢 < 50 THEN '40代'
+        WHEN 年齢 >= 50 AND 年齢 < 60 THEN '50代' END
+        || ':' ||
+    CASE 性別 WHEN 'M' THEN '男性'
+             WHEN 'F' THEN '女性' END AS 属性
+    FROM 回答者
